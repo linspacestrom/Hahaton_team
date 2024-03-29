@@ -3,7 +3,7 @@ from telebot import types
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton
 
 # Создаем экземпляр бота с указанием токена
-bot = telebot.TeleBot("7084622665:AAGNCq2Fsu5-_2jlryc7kQXIZGWwfxBqV0Y")
+bot = telebot.TeleBot("7173143373:AAHoMvWfO0rofRQHaYcAo-28R4AzBbkQdLc")
 
 # Создаем клавиатуру
 
@@ -136,8 +136,20 @@ def button_Analitica(message):
 # обработка кнопки "Главное меню"
 @bot.message_handler(func=lambda message: message.text == "Главное меню")
 def button_Analitica(message):
-    bot.send_message(message.chat.id, reply_markup=main_menu())
+    bot.send_message(message.chat.id, "Главное меню", reply_markup=main_menu())
 
+
+# обработка кнопки "Информация о мероприятих"
+@bot.message_handler(func=lambda message: message.text == "Информация о мероприятих")
+def button_Analitica(message):
+    bot.send_photo(message.chat.id,
+    photo="https://sun21-1.userapi.com/impg/HHkcWddSvk7shOcCn5qX0-XdgL6wiRzO_bu3hw/3_Qbh7I4CCM.jpg?size=1080x1080&quality=95&sign=c72e2226565fc817e354c187575a6baf&type=album",
+    caption="🌟 Главное событие этой весны – возвращение форума Ночь Карьеры "
+            "\n 🔥Новая команда, новые партнёры, новые возможности🔥\n💼 Ты сможешь найти единомышленников, коллег и друзей, которые поддержат тебя на пути к успеху и в начинаниях."
+            "\nКроме того, тебя ждут практические навыки и инструменты, которые помогут успешно устроиться на работу и реализовать свой профессиональный потенциал."
+            "\n 🚀Не упусти шанс стать частью этого захватывающего события и скорее регистрируйся по ссылке ниже!"
+            "\nhttps://docs.google.com/forms/d/e/1FAIpQLSc2D3oXlqAKiTtmS5ri0hFsj9mNT8YQSC0bL_3X554kzqWuow/viewform",
+                   reply_markup=main_menu())
 
 # Обработчик текстовых сообщений для выбора вопроса из списка
 def handle_faq_choice(message):
