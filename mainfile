@@ -156,7 +156,7 @@ def message_question(message):
     bot.register_next_step_handler(message, get_question)
 
 def get_question(message):
-    quest = set(message.text.lower().split())
+    quest = set(message.text.lower().replace('?','').split())
     with sqlite3.connect('database.db') as conn:
         cursor = conn.cursor()
         cursor.execute('SELECT trigg FROM questions')
@@ -170,8 +170,10 @@ def get_question(message):
             if len(perech) > 0:
                 cursor.execute('SELECT answer FROM questions')
                 answers_4 = cursor.fetchall()
+                cursor.execute('SELECT question FROM questions')
+                question_4 = cursor.fetchall()
                 flag = True
-                bot.send_message(message.chat.id, answers_4[index-1])
+                bot.send_message(message.chat.id, f"Если вы имели в виду это вопрос <b>{''.join(question_4[index-1])}</b>:\n{''.join(answers_4[index-1])}", parse_mode='HTML')
         if flag == False:
             markup = ReplyKeyboardMarkup(resize_keyboard=True)
             b1 = KeyboardButton('Да')
@@ -187,6 +189,8 @@ def answer_bot(message):
 def answer_bot(message):
     bot.send_message(message.chat.id,"Вы в главном меню", reply_markup=main_menu())
 
-
+@bot.message_handler(content_types=['text','photo','audio','vidio','GIF'])
+def except_values(message):
+    bot.send_message(message.chat.id, "Ваш запрос не корректен",reply_markup=main_menu())
 # Запускаем бота
 bot.infinity_polling()
