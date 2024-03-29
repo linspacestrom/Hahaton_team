@@ -28,6 +28,7 @@ def start_command(message):
 # Обработчик кнопки "Часто задаваемые вопросы."
 @bot.message_handler(func=lambda message: message.text == "Часто задаваемые вопросы")
 def faq_command(message):
+    markup = ReplyKeyboardRemove()
     with sqlite3.connect('database.db') as conn:
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM questions')
@@ -39,7 +40,7 @@ def faq_command(message):
             faq_text+= f'{index+1}. {elem[0]}\n'
             index+=1
         bot.send_message(message.chat.id,faq_text)
-        bot.send_message(message.chat.id, "Выберите номер интересующего вас вопроса:", reply_markup=None)
+        bot.send_message(message.chat.id, "Выберите номер интересующего вас вопроса:", reply_markup=markup)
     '''
     faq_text = "Вот часто задаваемые вопросы:\n"
     for i, question in enumerate(faq_list, 1):
@@ -130,7 +131,6 @@ def button_Analitica(message):
 
 # Обработчик текстовых сообщений для выбора вопроса из списка
 def handle_faq_choice(message):
-    markup = ReplyKeyboardRemove()
     if message.text.isdigit():
         question_number = int(message.text)
         if question_number in range(1,11):
@@ -147,7 +147,7 @@ def handle_faq_choice(message):
         else:
             bot.send_message(message.chat.id, "Такого вопроса нет в списке", reply_markup=markup)'''
     else:
-        bot.send_message(message.chat.id, "Введите верный номер вопроса", reply_markup=main_menu())
+        bot.send_message(message.chat.id, "Введите верный номер вопроса")
         bot.register_next_step_handler(message,handle_faq_choice)
 
 @bot.message_handler(func = lambda message: message.text == 'Задать свой вопрос')
