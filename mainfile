@@ -1,1 +1,31 @@
 import telebot
+from telebot.types import ReplyKeyboardMarkup, KeyboardButton
+
+# Создаем экземпляр бота с указанием токена
+bot = telebot.TeleBot("7084622665:AAGNCq2Fsu5-_2jlryc7kQXIZGWwfxBqV0Y")
+
+# Создаем клавиатуру
+keyboard = ReplyKeyboardMarkup(resize_keyboard=True)
+
+# Добавляем кнопки
+keyboard.row("Узнать о различных направлениях стажировки в Росатоме.",
+             "Получить ответы на часто задаваемые вопросы от потенциальных стажеров.")
+keyboard.row("Подписаться на уведомления о новых открытых вакансиях для стажировки.",
+             "Задать вопросы и получить консультации от HR-специалистов компании.")
+keyboard.row("Получить ссылки на ресурсы для подготовки к собеседованиям и тестированиям.")
+
+# Обработчик команды /start
+@bot.message_handler(commands=['start'])
+def start_command(message):
+    bot.send_message(message.chat.id, "Привет! Я бот Росатом Стажировка и я здесь, чтобы помочь тебе узнать все о стажировке в компании Росатом. Я предоставлю информацию о доступных стажировочных программах, требованиях к кандидатам, сроках проведения стажировки и многом другом.", reply_markup=keyboard)
+
+# Обработчик текстовых сообщений
+@bot.message_handler(func=lambda message: True)
+def handle_text(message):
+    # Здесь можно добавить обработку других сообщений
+    pass
+
+# Запускаем бота
+bot.infinity_polling()
+
+
